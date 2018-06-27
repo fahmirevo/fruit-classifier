@@ -4,7 +4,7 @@ import torch
 import models
 import data
 
-epochs = 400
+epochs = 10
 train_size = 3917
 batch_size = 8
 steps_per_epoch = round(train_size / batch_size)
@@ -28,7 +28,7 @@ for epoch in range(epochs):
         optimizer.zero_grad()
 
         outputs = net(inputs)
-        # print(outputs)
+        print(outputs)
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
