@@ -6,7 +6,7 @@ import data
 
 epochs = 400
 train_size = 3917
-batch_size = 4
+batch_size = 8
 steps_per_epoch = round(train_size / batch_size)
 display_step = 8
 
