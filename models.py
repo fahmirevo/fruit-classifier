@@ -2,30 +2,6 @@ import torch
 import torch.nn as nn
 
 
-class Sobel(nn.Module):
-
-    def __init__(self, planes):
-        super().__init__()
-        self.dx = nn.Conv2d(planes, planes, kernel_size=3, bias=False)
-        self.dy = nn.Conv2d(planes, planes, kernel_size=3, bias=False)
-
-        self.dx.weight.data[:] = 0
-        self.dy.weight.data[:] = 0
-
-        for i in range(planes):
-            self.dx.weight.data[i, i] = torch.Tensor([[1, 0, -1], [2, 0, -2], [1, 0, -1]])
-
-        for i in range(planes):
-            self.dy.weight.data[i, i] = torch.Tensor([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
-
-    def forward(self, data):
-        dx = self.dx(data)
-        dy = self.dy(data)
-
-        d = (dx ** 2 + dy ** 2) ** 0.5
-        return d
-
-
 class Fire(nn.Module):
 
     def __init__(self, in_planes, s1x1_planes,
@@ -63,17 +39,18 @@ class SqueezeNet(nn.Module):
             nn.AvgPool2d(kernel_size=2),
             Fire(64, 32, 64, 64),
             Fire(128, 32, 64, 64),
-            Fire(128, 32, 64, 64),
+            # Fire(128, 32, 64, 64),
             nn.AvgPool2d(kernel_size=2),
-            Fire(128, 64, 128, 128),
-            Fire(256, 64, 128, 128),
-            Fire(256, 64, 128, 128),
-            nn.AvgPool2d(kernel_size=2),
+            # Fire(128, 64, 128, 128),
+            # Fire(256, 64, 128, 128),
+            # Fire(256, 64, 128, 128),
+            # nn.AvgPool2d(kernel_size=2),
         )
 
         self.classifier = nn.Sequential(
             nn.Dropout(p=0.5),
-            nn.Conv2d(256, n_classes, kernel_size=1),
+            nn.Conv2d(128, n_classes, kernel_size=3),
+            # nn.Conv2d(256, n_classes, kernel_size=3),
             nn.LeakyReLU(inplace=True),
         )
 
