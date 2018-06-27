@@ -25,6 +25,7 @@ for i, fruit in enumerate(os.listdir('images')):
 
         X[count] = x
         Y[count, i] = 1
+        count += 1
         # x = x.view(1, 3, 100, 100)
         # y = torch.zeros((1, n_classes))
         # y[0, i] = 1
